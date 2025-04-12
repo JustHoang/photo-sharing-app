@@ -1,21 +1,41 @@
 import React from "react";
-import { AppBar, Toolbar, Typography } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+import { useLocation } from "react-router-dom";
+import models from "../../modelData/models";
 
-import "./styles.css";
+function TopBar() {
+  const location = useLocation();
+  let title = "Van"; 
+  let rightText = "";
 
-/**
- * Define TopBar, a React component of Project 4.
- */
-function TopBar () {
-    return (
-      <AppBar className="topbar-appBar" position="absolute">
-        <Toolbar>
-          <Typography variant="h5" color="inherit">
-            This is the TopBar component
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    );
+  if (location.pathname.startsWith("/photos")) {
+    const userId = location.pathname.split("/")[2];
+    const user = models.userModel(userId)
+    if (user) {
+      rightText = `${user.first_name} ${user.last_name}'s photos`;
+    }
+  } else if (location.pathname.startsWith("/user")) {
+    const userId = location.pathname.split("/")[2];
+    const user = models.userListModel().find((u) => u._id === userId);
+    
+    if (user) {
+      rightText = `${user.first_name} ${user.last_name}`;
+    }
+  }
+
+  return (
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          {title}
+        </Typography>
+
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Typography variant="body1">{rightText}</Typography>
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
 }
 
 export default TopBar;

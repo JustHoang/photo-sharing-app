@@ -1,7 +1,7 @@
 import './App.css';
 
 import React from "react";
-import { Grid, Typography, Paper } from "@mui/material";
+import { Grid, Typography, Paper, Box } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import TopBar from "./components/TopBar";
@@ -12,19 +12,19 @@ import UserPhotos from "./components/UserPhotos";
 const App = (props) => {
   return (
       <Router>
-        <div>
+        <Box>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TopBar />
             </Grid>
             <div className="main-topbar-buffer" />
             <Grid item sm={3}>
-              <Paper className="main-grid-item">
+              <Paper className="main-grid-item" sx={{ width: '100%', overflow: 'auto' }}>
                 <UserList />
               </Paper>
             </Grid>
-            <Grid item sm={9}>
-              <Paper className="main-grid-item">
+            <Grid item sm={8.5}>
+              <Paper className="main-grid-item" sx={{ width: '100%', overflow: 'auto', boxShadow: "3px", marginX:"10px"}}>
                 <Routes>
                   <Route
                       path="/users/:userId"
@@ -39,7 +39,7 @@ const App = (props) => {
               </Paper>
             </Grid>
           </Grid>
-        </div>
+        </Box>
       </Router>
   );
 }

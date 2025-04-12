@@ -1,48 +1,61 @@
 import React from "react";
-import {CardContent, Typography, Button} from "@mui/material";
-
-import "./styles.css";
-import {useParams, useNavigate} from "react-router-dom";
+import { CardContent, Typography, Button, Card, Box } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
 import models from "../../modelData/models";
-import UserPhotos from "../UserPhotos";
 
 /**
  * Define UserDetail, a React component of Project 4.
  */
 function UserDetail() {
-
-  const {userId} = useParams();
-  const user = models.userListModel().find((u) => u._id === userId)
+  const { userId } = useParams();
+  const user = models.userModel(userId);
   const navigate = useNavigate();
-  
+
   if (!user) {
-    return <Typography>Người dùng không tồn tại</Typography>;
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "100vh" }}>
+        <Typography variant="h4" color="error">
+          Người dùng không tồn tại
+        </Typography>
+      </Box>
+    );
   }
 
   const handleShowPhotos = () => {
-    alert( `${user._id}`)
     navigate(`/photos/${user._id}`);
   };
 
   return (
-    <div className="user-detail-container">
-      <CardContent>
-        <Typography variant="h5" gutterBottom>
-          {user.first_name} {user.last_name}
-        </Typography>
-        <Typography><b>Address:</b> {user.location}</Typography>
-        <Typography><b>Information:</b> {user.description}</Typography>
-        <Typography><b>Occupation:</b> {user.occupation}</Typography>
+    <div style={{ padding: "20px" }}>
+      {/* Card Container */}
+      <Card sx={{ maxWidth: 600, margin: "auto", boxShadow: 3 }}>
+        <CardContent>
+          {/* User Info */}
+          <Typography variant="h4" gutterBottom>
+            {user.first_name} {user.last_name}
+          </Typography>
+          <Typography variant="h6" color="textSecondary" paragraph>
+            <b>Address:</b> {user.location}
+          </Typography>
+          <Typography variant="body1" paragraph>
+            <b>Information:</b> {user.description}
+          </Typography>
+          <Typography variant="body1" paragraph>
+            <b>Occupation:</b> {user.occupation}
+          </Typography>
 
-        <Button
+          {/* Button to view photos */}
+          <Button
             variant="contained"
             color="primary"
             onClick={handleShowPhotos}
-            style={{ marginTop: "20px" }}
+            fullWidth
+            sx={{ mt: 2 }}
           >
             Xem ảnh của {user.first_name}
           </Button>
-      </CardContent>
+        </CardContent>
+      </Card>
     </div>
   );
 }
