@@ -5,7 +5,7 @@ import models from "../../modelData/models";
 
 function TopBar() {
   const location = useLocation();
-  let title = "Van"; 
+  let title = "Nguyễn Việt Hoàng"; 
   let rightText = "";
 
   if (location.pathname.startsWith("/photos")) {
